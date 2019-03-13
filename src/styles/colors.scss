@@ -1,0 +1,76 @@
+@import './variables.scss';
+.primary {
+  color: $color-primary;
+}
+.primary-bg {
+  background-color: $color-primary;
+}
+
+.dark {
+  color: $tx-dark;
+}
+.dark-bg {
+  background-color: $tx-dark;
+}
+
+.success {
+  color: $color-success;
+}
+.success-bg {
+  background-color: $color-success;
+}
+
+.danger {
+  color: $color-danger;
+}
+.danger-bg {
+  background-color: $color-danger;
+}
+
+.white {
+  color: $tx-white;
+}
+.white-bg {
+  background-color: $tx-white;
+}
+
+.warn {
+  color: $color-warn;
+}
+.warn-bg {
+  background-color: $color-warn;
+}
+
+// 文本颜色
+.tx-pc {
+  color: $tx-pc;
+}
+.tx-pc-bg {
+  background-color: $tx-pc;
+}
+
+.tx-rc {
+  color: $tx-rc;
+}
+.tx-rc-bg {
+  background-color: $tx-rc;
+}
+
+.tx-sc {
+  color: $tx-sc;
+}
+.tx-sc-bg {
+  background-color: $tx-sc;
+}
+
+.tx-hc {
+  color: $tx-hc;
+}
+.tx-hc-bg {
+  background-color: $tx-hc;
+}
+
+// 页面颜色
+.page-bg {
+  background-color: $color-bg-page;
+}

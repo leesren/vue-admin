@@ -1,0 +1,177 @@
+@import './mixins';
+.flexbox {
+  display: flex;
+}
+.flexbox-vc {
+  display: flex;
+  align-items: center;
+}
+.flexbox-hvc {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.block-center {
+  margin-left: auto;
+  margin-right: auto;
+}
+.flexbox-v {
+  display: flex;
+  flex-direction: column;
+}
+.flexbox-v-vc {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.flexbox-v-vhc {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.flex {
+  flex: 1;
+}
+.flex-v-dir {
+  flex-direction: column;
+}
+.flex-h-dir {
+  flex-direction: row;
+}
+
+.flex-vc {
+  align-items: center;
+}
+.flex-v-start {
+  align-items: flex-start;
+}
+.align-self-start {
+  align-self: flex-start;
+}
+.align-self-end {
+  align-self: flex-end;
+}
+.flex-hc {
+  justify-content: center;
+}
+.flex-hvc {
+  justify-content: center;
+  align-items: center;
+}
+.flex-wrap {
+  flex-wrap: wrap;
+}
+.flex-hbetween {
+  justify-content: space-between;
+}
+.flex-haround {
+  justify-content: space-around;
+}
+.flex-hend {
+  justify-content: flex-end;
+}
+.clearfix:after {
+  display: table;
+  content: ' ';
+  clear: both;
+  line-height: 0;
+}
+@include flex();
+
+.inblock {
+  display: inline-block;
+}
+.block {
+  display: inline-block;
+}
+
+.over-hide {
+  overflow: hidden;
+}
+.over-hide-y {
+  overflow-y: hidden;
+}
+.over-hide-x {
+  overflow-x: hidden;
+}
+.over-scroll {
+  overflow: auto;
+}
+.over-scroll-y {
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+.mobile-scroll {
+  -webkit-overflow-scrolling: touch;
+}
+.over-scroll-x {
+  overflow-x: auto;
+}
+.pointer {
+  cursor: pointer;
+}
+
+.posi-re {
+  position: relative;
+} /*相对定位*/
+.posi-ab {
+  position: absolute;
+} /*相对定位*/
+.posi-fx {
+  position: fixed;
+} /*相对定位*/
+.posi-st {
+  position: static;
+} /*相对定位*/
+
+.posi-hcenter {
+  left: 50%;
+  transform: translateX(-50%);
+}
+.posi-vcenter {
+  top: 50%;
+  transform: translateY(-50%);
+}
+.posi-hvcenter {
+  top: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.bg-size-cover {
+  background-size: cover;
+}
+.bg-size-contain {
+  background-size: contain;
+}
+
+.visi-hide,
+.invisi {
+  visibility: hidden;
+}
+.visi-visi {
+  visibility: visible;
+}
+.hide {
+  display: none;
+}
+
+@include gap('50', 50px);
+@include gap('45', 45px);
+@include gap('40', 40px);
+@include gap('35', 35px);
+@include gap('30', 30px);
+@include gap('25', 25px);
+@include gap('20', 20px);
+@include gap('18', 18px);
+@include gap('15', 15px);
+@include gap('12', 12px);
+@include gap('10', 10px);
+@include gap('8', 8px);
+@include gap('5', 5px);
+@include gap('3', 3px);
+@include gap('2', 2px);
+@include gap('0', 0);

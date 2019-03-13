@@ -1,0 +1,90 @@
+/* 候选主题色 */
+$color-primary-red: #3171e0;
+$color-primary-deepred: #f04141;
+$color-primary-blue: #4c8dff;
+$color-primary-yellow: #ffce00;
+$color-primary-info: #0cd1e8;
+
+$color-primary-pink: #f8c6cf;
+$color-primary-green: #10dc60;
+$color-primary-darkgreen: #3a6826;
+$color-primary-black: #2b2b2b;
+$color-primary-gray: #57585a;
+$color-primary-brown: #905537;
+$color-primary-purple: #a069d1;
+
+/* 体颜色变量 */
+$color-primary: $color-primary-red;
+$color-primary-darken: #4c8dff;
+$color-danger: #e33;
+$color-pink: #e899fc;
+$color-success: #10dc60;
+$color-muted: #a3a3a3;
+$color-weak: #626e7a;
+$color-normal: #262626;
+$color-warn: #f85;
+
+/* 字体颜色 */
+$tx-pc: #262626; //主要文字 primary
+$tx-rc: #606266; //常规文字 regular
+$tx-sc: #909399; //次要文字 secondary
+$tx-hc: #c0c4cc; //占位文字 placeholder
+$tx-dark: #000; // 黑色
+$tx-white: #fff; // 白色
+
+/* 字体大小变量 */
+$text-xxl: 34px;
+$text-xl: 32px;
+$text-nm: 28px;
+$text-lg: 30px;
+$text-sm: 26px;
+$text-xs: 24px;
+$text-xxs: 22px;
+$text-form: 17px;
+
+/* 边框样式 */
+$color-border: #ededed;
+$hrc: $color-border;
+$color-line: #eeeeee;
+$border: 1px solid $color-border;
+$border-line: 1px solid $color-line;
+$border-dot: 1px dotted #eff0f2;
+
+/* 背景样式 */
+$color-bg-body: #f5f5f5;
+$color-bg-page: #f2f2f2;
+$color-bg-item: #fafafa;
+
+// sidebar 白色主题
+$menuText: #333;
+$menuActiveText: #3880ff;
+$subMenuActiveText: #777; //https://github.com/ElemeFE/element/issues/12951
+$menuBg: #fff;
+$menuHover: #eee;
+$subMenuBg: #fff;
+$subMenuHover: #eee;
+$sideBarWidth: 210px;
+
+// sidebar 暗色主题
+// $menuText: #abb2bf;
+// $menuActiveText: #3880ff;
+// $subMenuActiveText: #f4f4f5; //https://github.com/ElemeFE/element/issues/12951
+// $menuBg: rgba(0, 0, 0, 0.65);
+// $menuHover: rgba(0, 0, 0, 0.45);
+// $subMenuBg: rgba(0, 0, 0, 0.55);
+// $subMenuHover: rgba(0, 0, 0, 0.45);
+
+$sideBarWidth: 210px;
+
+// the :export directive is the magic sauce for webpack
+// https://www.bluematador.com/blog/how-to-share-variables-between-js-and-sass
+:export {
+  menuText: $menuText;
+  menuActiveText: $menuActiveText;
+  subMenuActiveText: $subMenuActiveText;
+  menuBg: $menuBg;
+  menuHover: $menuHover;
+  subMenuBg: $subMenuBg;
+  subMenuHover: $subMenuHover;
+  sideBarWidth: $sideBarWidth;
+}
