@@ -1,15 +1,22 @@
-'use strict'
+'use strict';
 // Template version: 1.2.6
 // see http://vuejs-templates.github.io/webpack for documentation.
 
-const path = require('path')
+const path = require('path');
 
 module.exports = {
   dev: {
     // Paths
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
-    proxyTable: {},
+    proxyTable: {
+      '/api': {
+        secure: false,
+        target: 'http://localhost:3000',
+        changeOrigin: true // 如果接口跨域，需要进行这个参数配置 // pathRewrite: {// 如果接口本身没有/api需要通过pathRewrite来重写了地址 //   '^api': ''
+        // }
+      }
+    },
 
     // Various Dev Server settings
 
@@ -35,7 +42,7 @@ module.exports = {
      */
 
     // https://webpack.js.org/configuration/devtool/#development
-    devtool: 'cheap-source-map',
+    devtool: 'source-map',
 
     // CSS Sourcemaps off by default because relative paths are "buggy"
     // with this option, according to the CSS-Loader README
@@ -85,4 +92,4 @@ module.exports = {
     // `npm run build:prod --generate_report`
     generateAnalyzerReport: process.env.npm_config_generate_report || false
   }
-}
+};

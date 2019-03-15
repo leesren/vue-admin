@@ -31,7 +31,7 @@
         </span>
         <el-input
           v-model="loginForm.username"
-          :placeholder="$t('login.username')"
+          :placeholder="'请输入用户名'"
           name="username"
           type="text"
           auto-complete="on"
@@ -45,7 +45,7 @@
         <el-input
           v-model="loginForm.password"
           :type="passwordType"
-          :placeholder="$t('login.password')"
+          :placeholder="'请输入密码'"
           name="password"
           auto-complete="on"
           @keyup.enter.native="handleLogin"
@@ -74,7 +74,7 @@
           type="primary"
           size="large"
           style="width:100%; "
-          @click.native.prevent="handleLogin"
+          @click="handleLogin"
         >登录</el-button>
       </div>
 
@@ -91,7 +91,7 @@
           </div>
           <div>
             <div class="tx-r white tx-sr">
-              <el-button type="text" size="tiny">注册账户</el-button>
+              <el-button type="text" size="tiny" @click="register">注册账户</el-button>
             </div>
           </div>
         </div>
@@ -101,6 +101,7 @@
 </template>
 
 <script>
+// import { mapActions } from "vuex";
 import { validUsername } from "@/utils/validate";
 import SocialSign from "./socialsignin";
 
@@ -124,7 +125,7 @@ export default {
     };
     return {
       loginForm: {
-        username: "admin",
+        username: "IvinWu",
         password: "1111111"
       },
       loginRules: {
@@ -163,15 +164,16 @@ export default {
         this.passwordType = "password";
       }
     },
-    handleLogin() {
+    register() {},
+    async handleLogin() {
       this.$refs.loginForm.validate(valid => {
         if (valid) {
           this.loading = true;
           this.$store
-            .dispatch("LoginByUsername", this.loginForm)
+            .dispatch("login", this.loginForm)
             .then(() => {
               this.loading = false;
-              this.$router.push({ path: this.redirect || "/" });
+              this.$router.push({ path: "/dashboard" });
             })
             .catch(() => {
               this.loading = false;
@@ -182,6 +184,7 @@ export default {
         }
       });
     },
+
     afterQRScan() {
       // const hash = window.location.hash.slice(1)
       // const hashObj = getQueryObject(hash)
