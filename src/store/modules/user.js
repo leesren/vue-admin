@@ -1,30 +1,39 @@
-import { logout, getUserInfo } from '@/api/login';
-import { getToken, setToken, removeToken } from '@/utils/auth';
-import { userApi } from '../../api';
-import { $http } from '../../utils/request';
+import { getUserInfo } from "@/api/login";
+import { getToken, setToken, removeToken } from "@/utils/auth";
+import { userApi } from "../../api";
+import { $http } from "../../utils/request";
 const user = {
   state: {
     token: getToken(),
-    userInfo: {}
+    userInfo: {},
+    roles: []
   },
 
   mutations: {
     SET_USER_INFO: (state, data) => {
       state.userInfo = data;
+    },
+    SET_USER_ROLES: (state, data) => {
+      state.roles = data;
     }
   },
 
   actions: {
     async login({ commit }, form) {
-      return this.dispatch('auth')
+      return this.dispatch("auth")
         .then(res => {
           setToken(res.accessToken);
           return $http.get(`${userApi.login}?name=${form.username}`);
         })
         .then(data => {
-          commit('SET_USER_INFO', data);
+          commit("SET_USER_INFO", data);
+
           return data;
         });
+    },
+    roleInfo({ commit }, data = ["admin"]) {
+      commit("SET_USER_ROLES", data);
+      return Promise.resolve(data);
     },
     auth() {
       return $http.get(userApi.auth);
@@ -45,12 +54,12 @@ const user = {
     // },
 
     // 登出
-    LogOut({ commit, state }) {
+    loginOut({ commit, state }) {
       return new Promise((resolve, reject) => {
-        logout(state.token)
+        $http
+          .get(userApi.loginOut)
           .then(() => {
-            commit('SET_TOKEN', '');
-            commit('SET_ROLES', []);
+            commit("SET_ROLES", []);
             removeToken();
             resolve();
           })
@@ -63,7 +72,7 @@ const user = {
     // 前端 登出
     FedLogOut({ commit }) {
       return new Promise(resolve => {
-        commit('SET_TOKEN', '');
+        commit("SET_TOKEN", "");
         removeToken();
         resolve();
       });
@@ -72,15 +81,15 @@ const user = {
     // 动态修改权限
     ChangeRoles({ commit, dispatch }, role) {
       return new Promise(resolve => {
-        commit('SET_TOKEN', role);
+        commit("SET_TOKEN", role);
         setToken(role);
         getUserInfo(role).then(response => {
           const data = response.data;
-          commit('SET_ROLES', data.roles);
-          commit('SET_NAME', data.name);
-          commit('SET_AVATAR', data.avatar);
-          commit('SET_INTRODUCTION', data.introduction);
-          dispatch('GenerateRoutes', data); // 动态修改权限后 重绘侧边菜单
+          commit("SET_ROLES", data.roles);
+          commit("SET_NAME", data.name);
+          commit("SET_AVATAR", data.avatar);
+          commit("SET_INTRODUCTION", data.introduction);
+          dispatch("GenerateRoutes", data); // 动态修改权限后 重绘侧边菜单
           resolve();
         });
       });
