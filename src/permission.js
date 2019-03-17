@@ -14,26 +14,31 @@ function hasPermission(roles, permissionRoles) {
 }
 
 function handleUserInfo2(to, from, next) {
+  const addRoutes = () => {
+    return store.dispatch("roleInfo").then(roles => {
+      return store.dispatch("generateRoutes", { roles });
+    });
+  };
   if (store.getters.roles.length === 0) {
     // 判断当前用户是否已拉取完user_info信息
-    store.dispatch("roleInfo").then(roles => {
-      store.dispatch("generateRoutes", { roles }).then(accessRoutes => {
-        // 根据roles权限生成可访问的路由表
-        router.addRoutes(accessRoutes); // 动态添加可访问路由表
-        next({ ...to, replace: true }); // hack方法 确保addRoutes已完成 ,set the replace: true so the navigation will not leave a history record
-      });
+    addRoutes().then(accessRoutes => {
+      // 根据roles权限生成可访问的路由表
+      router.addRoutes(accessRoutes); // 动态添加可访问路由表
+      next({ ...to, replace: true }); // hack方法 确保addRoutes已完成 ,set the replace: true so the navigation will not leave a history record
     });
   } else {
     // 没有动态改变权限的需求可直接next() 删除下方权限判断 ↓
+
     if (hasPermission(store.getters.roles, to.meta.roles)) {
-      if (store.getters.permission_routers && store.getters.permission_routers.length === 0) {
+      if (
+        store.getters.permission_routers &&
+        store.getters.permission_routers.length === 0
+      ) {
         // 刷新页面的情况
-        store.dispatch("roleInfo").then(roles => {
-          store.dispatch("generateRoutes", { roles }).then(accessRoutes => {
-            // 根据roles权限生成可访问的路由表
-            router.addRoutes(accessRoutes); // 动态添加可访问路由表
-            next(); // hack方法 确保addRoutes已完成 ,set the replace: true so the navigation will not leave a history record
-          });
+        addRoutes().then(accessRoutes => {
+          // 根据roles权限生成可访问的路由表
+          router.addRoutes(accessRoutes); // 动态添加可访问路由表
+          next({ ...to, replace: true }); // hack方法 确保addRoutes已完成 ,set the replace: true so the navigation will not leave a history record
         });
       } else {
         next();
@@ -45,7 +50,7 @@ function handleUserInfo2(to, from, next) {
   }
 }
 
-const whiteList = ["/login", "/auth-redirect"]; // no redirect whitelist
+const whiteList = ["/login", "/auth-redirect", "/register"]; // no redirect whitelist
 
 router.beforeEach((to, from, next) => {
   NProgress.start(); // start progress bar

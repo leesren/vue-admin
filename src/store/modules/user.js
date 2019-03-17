@@ -1,17 +1,21 @@
-import { getToken, setToken, removeToken } from "@/utils/auth";
+import { setToken } from "@/utils/auth";
 import { userApi } from "../../api";
 import { $http } from "../../utils/request";
 import { clearCache } from "../../utils/auth";
 const user = {
   state: {
-    token: getToken(),
-    userInfo: {},
+    userInfo: {
+      avatar: "https://avatars0.githubusercontent.com/u/1136893?s=460&v=4"
+    },
     roles: []
   },
 
   mutations: {
     SET_USER_INFO: (state, data) => {
-      state.userInfo = data;
+      state.userInfo = {
+        ...state.userInfo,
+        ...data
+      };
     },
     SET_USER_ROLES: (state, data) => {
       state.roles = data;
@@ -23,11 +27,13 @@ const user = {
       return this.dispatch("auth")
         .then(res => {
           setToken(res.accessToken);
-          return $http.get(`${userApi.login}?name=${form.username}`);
+          return $http.post(`${userApi.login}`, {
+            name: form.username,
+            password: form.password
+          });
         })
         .then(data => {
           commit("SET_USER_INFO", data);
-
           return data;
         });
     },
@@ -68,16 +74,6 @@ const user = {
           });
       });
     },
-
-    // 前端 登出
-    FedLogOut({ commit }) {
-      return new Promise(resolve => {
-        commit("SET_TOKEN", "");
-        removeToken();
-        resolve();
-      });
-    },
-
     // 动态修改权限
     ChangeRoles({ commit, dispatch }, role) {
       return new Promise(resolve => {

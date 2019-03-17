@@ -44,55 +44,39 @@
         </span>
         <el-input
           v-model="loginForm.password"
-          :type="passwordType"
           :placeholder="'请输入密码'"
           name="password"
+          type="password"
           auto-complete="on"
-          @keyup.enter.native="handleLogin"
         />
-        <span class="show-pwd" @click="showPwd">
-          <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'"/>
-        </span>
       </el-form-item>
-      <div class="item-form mb10" style="margin-top:-15px">
-        <div class="flexbox-vc">
-          <div class="flex">
-            <el-checkbox v-model="checked">
-              <span class="tx-sc">自动登录</span>
-            </el-checkbox>
-          </div>
-          <div :md="12" :lg="12">
-            <div class="tx-r white">
-              <el-button type="text" size="tiny">忘记密码</el-button>
-            </div>
-          </div>
-        </div>
-      </div>
+      <el-form-item prop="password">
+        <span class="svg-container">
+          <svg-icon icon-class="password"/>
+        </span>
+        <el-input
+          v-model="loginForm.confirmPassword"
+          :placeholder="'请确认密码'"
+          type="password"
+          auto-complete="on"
+        />
+      </el-form-item>
+
       <div class="mb15">
         <el-button
           :loading="loading"
           type="primary"
           size="large"
           style="width:100%; "
-          @click="handleLogin"
-        >登录</el-button>
+          @click="register"
+        >注册</el-button>
       </div>
-
-      <div class="item-form">
-        <div class="flexbox-vc">
+      <div class="item-form mb10" style="margin-top:-15px">
+        <div class="flexbox">
           <div class="flex">
-            <el-button type="text" size="tiny">其他登录方式</el-button>
-            <span class="mr10 inblock tx-hc ml15">
-              <svg-icon icon-class="qq"/>
-            </span>
-            <span class="mr10 inblock tx-hc">
-              <svg-icon icon-class="wechat"/>
-            </span>
-          </div>
-          <div>
-            <div class="tx-r white tx-sr">
-              <router-link to="/register">
-                <el-button type="text" size="tiny">注册账户</el-button>
+            <div class="tx-c white">
+              <router-link to="/login">
+                <el-button type="text" size="tiny">已有账号</el-button>
               </router-link>
             </div>
           </div>
@@ -104,20 +88,20 @@
 
 <script>
 // import { mapActions } from "vuex";
-import SocialSign from "./socialsignin";
 import {
+  validateConfirmPassword,
   validatePassword,
   validateUsername
 } from "./utils";
-
+import { userApi } from "../../api";
 export default {
-  name: "Login",
-  components: { SocialSign },
+  name: "Register",
   data() {
     return {
       loginForm: {
-        username: "IvinWu",
-        password: "1111111"
+        username: "zenberge",
+        password: "123456",
+        confirmPassword: "123456"
       },
       loginRules: {
         username: [
@@ -125,21 +109,18 @@ export default {
         ],
         password: [
           { required: true, trigger: "blur", validator: validatePassword }
+        ],
+        confirmPassword: [
+          {
+            required: true,
+            trigger: "blur",
+            validator: validateConfirmPassword
+          }
         ]
       },
-      checked: false,
-      passwordType: "password",
       loading: false,
       redirect: undefined
     };
-  },
-  watch: {
-    $route: {
-      handler: function(route) {
-        this.redirect = route.query && route.query.redirect;
-      },
-      immediate: true
-    }
   },
   created() {
     // window.addEventListener('hashchange', this.afterQRScan)
@@ -148,19 +129,15 @@ export default {
     // window.removeEventListener('hashchange', this.afterQRScan)
   },
   methods: {
-    showPwd() {
-      if (this.passwordType === "password") {
-        this.passwordType = "";
-      } else {
-        this.passwordType = "password";
-      }
-    },
-    async handleLogin() {
+    register() {
       this.$refs.loginForm.validate(valid => {
         if (valid) {
           this.loading = true;
-          this.$store
-            .dispatch("login", this.loginForm)
+          this.$http
+            .post(userApi.register, {
+              name: this.loginForm.username,
+              password: this.loginForm.password
+            })
             .then(() => {
               this.loading = false;
               this.$router.push({ path: "/dashboard" });
@@ -173,26 +150,26 @@ export default {
           return false;
         }
       });
-    },
-
-    afterQRScan() {
-      // const hash = window.location.hash.slice(1)
-      // const hashObj = getQueryObject(hash)
-      // const originUrl = window.location.origin
-      // history.replaceState({}, '', originUrl)
-      // const codeMap = {
-      //   wechat: 'code',
-      //   tencent: 'code'
-      // }
-      // const codeName = hashObj[codeMap[this.auth_type]]
-      // if (!codeName) {
-      //   alert('第三方登录失败')
-      // } else {
-      //   this.$store.dispatch('LoginByThirdparty', codeName).then(() => {
-      //     this.$router.push({ path: '/' })
-      //   })
-      // }
     }
+  },
+
+  afterQRScan() {
+    // const hash = window.location.hash.slice(1)
+    // const hashObj = getQueryObject(hash)
+    // const originUrl = window.location.origin
+    // history.replaceState({}, '', originUrl)
+    // const codeMap = {
+    //   wechat: 'code',
+    //   tencent: 'code'
+    // }
+    // const codeName = hashObj[codeMap[this.auth_type]]
+    // if (!codeName) {
+    //   alert('第三方登录失败')
+    // } else {
+    //   this.$store.dispatch('LoginByThirdparty', codeName).then(() => {
+    //     this.$router.push({ path: '/' })
+    //   })
+    // }
   }
 };
 </script>

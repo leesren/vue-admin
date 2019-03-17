@@ -1,17 +1,18 @@
-import Vue from 'vue'
-import Router from 'vue-router'
+import Vue from "vue";
+import Router from "vue-router";
 
-Vue.use(Router)
+Vue.use(Router);
 
 /* Layout */
-import Layout from '@/views/layout/Layout'
+import Layout from "@/views/layout/Layout";
 
 /* Router Modules */
-import componentsRouter from './modules/components'
+import componentsRouter from "./modules/components";
 
-import tableRouter from './modules/table'
-import treeTableRouter from './modules/tree-table'
-import nestedRouter from './modules/nested'
+import tableRouter from "./modules/table";
+import treeTableRouter from "./modules/tree-table";
+import nestedRouter from "./modules/nested";
+import userRouter from "./modules/user";
 
 /** note: sub-menu only appear when children.length>=1
  *  detail see  https://panjiachen.github.io/vue-element-admin-site/guide/essentials/router-and-nav.html
@@ -35,48 +36,39 @@ import nestedRouter from './modules/nested'
 **/
 export const constantRouterMap = [
   {
-    path: '/redirect',
+    path: "/redirect",
     component: Layout,
     hidden: true,
     children: [
       {
-        path: '/redirect/:path*',
-        component: () => import('@/views/redirect/index')
+        path: "/redirect/:path*",
+        component: () => import("@/views/redirect/index")
       }
     ]
   },
+  ...userRouter,
   {
-    path: '/login',
-    component: () => import('@/views/login/index'),
+    path: "/404",
+    component: () => import("@/views/errorPage/404"),
     hidden: true
   },
   {
-    path: '/auth-redirect',
-    component: () => import('@/views/login/authredirect'),
+    path: "/401",
+    component: () => import("@/views/errorPage/401"),
     hidden: true
   },
   {
-    path: '/404',
-    component: () => import('@/views/errorPage/404'),
-    hidden: true
-  },
-  {
-    path: '/401',
-    component: () => import('@/views/errorPage/401'),
-    hidden: true
-  },
-  {
-    path: '',
+    path: "",
     component: Layout,
-    redirect: 'dashboard',
+    redirect: "dashboard",
     children: [
       {
-        path: 'dashboard',
-        component: () => import('@/views/dashboard/index'),
-        name: 'Dashboard',
+        path: "dashboard",
+        component: () => import("@/views/dashboard/index"),
+        name: "Dashboard",
         meta: {
-          title: 'dashboard',
-          icon: 'dashboard',
+          title: "dashboard",
+          icon: "dashboard",
           noCache: true,
           affix: true
         }
@@ -85,53 +77,53 @@ export const constantRouterMap = [
   },
 
   {
-    path: '/guide',
+    path: "/guide",
     component: Layout,
-    redirect: '/guide/index',
+    redirect: "/guide/index",
     children: [
       {
-        path: 'index',
-        component: () => import('@/views/guide/index'),
-        name: 'Guide',
-        meta: { title: 'guide', icon: 'guide', noCache: true }
+        path: "index",
+        component: () => import("@/views/guide/index"),
+        name: "Guide",
+        meta: { title: "guide", icon: "guide", noCache: true }
       }
     ]
   }
-]
+];
 
 export default new Router({
   // mode: 'history', // require service support
   scrollBehavior: () => ({ y: 0 }),
   routes: constantRouterMap
-})
+});
 
 export const asyncRouterMap = [
   {
-    path: '/permission',
+    path: "/permission",
     component: Layout,
-    redirect: '/permission/index',
+    redirect: "/permission/index",
     alwaysShow: true, // will always show the root menu
     meta: {
-      title: 'permission',
-      icon: 'lock',
-      roles: ['admin', 'editor'] // you can set roles in root nav
+      title: "permission",
+      icon: "lock",
+      roles: ["admin", "editor"] // you can set roles in root nav
     },
     children: [
       {
-        path: 'page',
-        component: () => import('@/views/permission/page'),
-        name: 'PagePermission',
+        path: "page",
+        component: () => import("@/views/permission/page"),
+        name: "PagePermission",
         meta: {
-          title: 'pagePermission',
-          roles: ['admin'] // or you can only set roles in sub nav
+          title: "pagePermission",
+          roles: ["admin"] // or you can only set roles in sub nav
         }
       },
       {
-        path: 'directive',
-        component: () => import('@/views/permission/directive'),
-        name: 'DirectivePermission',
+        path: "directive",
+        component: () => import("@/views/permission/directive"),
+        name: "DirectivePermission",
         meta: {
-          title: 'directivePermission'
+          title: "directivePermission"
           // if do not set roles, means: this page does not require permission
         }
       }
@@ -139,14 +131,14 @@ export const asyncRouterMap = [
   },
 
   {
-    path: '/icon',
+    path: "/icon",
     component: Layout,
     children: [
       {
-        path: 'index',
-        component: () => import('@/views/svg-icons/index'),
-        name: 'Icons',
-        meta: { title: 'icons', icon: 'icon', noCache: true }
+        path: "index",
+        component: () => import("@/views/svg-icons/index"),
+        name: "Icons",
+        meta: { title: "icons", icon: "icon", noCache: true }
       }
     ]
   },
@@ -158,108 +150,108 @@ export const asyncRouterMap = [
   tableRouter,
   treeTableRouter,
   {
-    path: '/tab',
+    path: "/tab",
     component: Layout,
     children: [
       {
-        path: 'index',
-        component: () => import('@/views/tab/index'),
-        name: 'Tab',
-        meta: { title: 'tab', icon: 'tab' }
+        path: "index",
+        component: () => import("@/views/tab/index"),
+        name: "Tab",
+        meta: { title: "tab", icon: "tab" }
       }
     ]
   },
 
   {
-    path: '/error',
+    path: "/error",
     component: Layout,
-    redirect: 'noredirect',
-    name: 'ErrorPages',
+    redirect: "noredirect",
+    name: "ErrorPages",
     meta: {
-      title: 'errorPages',
-      icon: '404'
+      title: "errorPages",
+      icon: "404"
     },
     children: [
       {
-        path: '401',
-        component: () => import('@/views/errorPage/401'),
-        name: 'Page401',
-        meta: { title: 'page401', noCache: true }
+        path: "401",
+        component: () => import("@/views/errorPage/401"),
+        name: "Page401",
+        meta: { title: "page401", noCache: true }
       },
       {
-        path: '404',
-        component: () => import('@/views/errorPage/404'),
-        name: 'Page404',
-        meta: { title: 'page404', noCache: true }
+        path: "404",
+        component: () => import("@/views/errorPage/404"),
+        name: "Page404",
+        meta: { title: "page404", noCache: true }
       }
     ]
   },
 
   {
-    path: '/error-log',
+    path: "/error-log",
     component: Layout,
-    redirect: 'noredirect',
+    redirect: "noredirect",
     children: [
       {
-        path: 'log',
-        component: () => import('@/views/errorLog/index'),
-        name: 'ErrorLog',
-        meta: { title: 'errorLog', icon: 'bug' }
+        path: "log",
+        component: () => import("@/views/errorLog/index"),
+        name: "ErrorLog",
+        meta: { title: "errorLog", icon: "bug" }
       }
     ]
   },
 
   {
-    path: '/theme',
+    path: "/theme",
     component: Layout,
-    redirect: 'noredirect',
+    redirect: "noredirect",
     children: [
       {
-        path: 'index',
-        component: () => import('@/views/theme/index'),
-        name: 'Theme',
-        meta: { title: 'theme', icon: 'theme' }
+        path: "index",
+        component: () => import("@/views/theme/index"),
+        name: "Theme",
+        meta: { title: "theme", icon: "theme" }
       }
     ]
   },
 
   {
-    path: '/clipboard',
+    path: "/clipboard",
     component: Layout,
-    redirect: 'noredirect',
+    redirect: "noredirect",
     children: [
       {
-        path: 'index',
-        component: () => import('@/views/clipboard/index'),
-        name: 'ClipboardDemo',
-        meta: { title: 'clipboardDemo', icon: 'clipboard' }
+        path: "index",
+        component: () => import("@/views/clipboard/index"),
+        name: "ClipboardDemo",
+        meta: { title: "clipboardDemo", icon: "clipboard" }
       }
     ]
   },
 
   {
-    path: '/i18n',
+    path: "/i18n",
     component: Layout,
     children: [
       {
-        path: 'index',
-        component: () => import('@/views/i18n-demo/index'),
-        name: 'I18n',
-        meta: { title: 'i18n', icon: 'international' }
+        path: "index",
+        component: () => import("@/views/i18n-demo/index"),
+        name: "I18n",
+        meta: { title: "i18n", icon: "international" }
       }
     ]
   },
 
   {
-    path: 'external-link',
+    path: "external-link",
     component: Layout,
     children: [
       {
-        path: 'www.baidu.com',
-        meta: { title: 'externalLink', icon: 'link' }
+        path: "www.baidu.com",
+        meta: { title: "externalLink", icon: "link" }
       }
     ]
   },
 
-  { path: '*', redirect: '/404', hidden: true }
-]
+  { path: "*", redirect: "/404", hidden: true }
+];

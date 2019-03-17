@@ -1,5 +1,5 @@
 export const userApi = {
-  register: '/api/user/register',
+  register: '/api/auth/register',
   auth: '/api/auth',
   login: '/api/user/login',
   loginOut: '/api/user/loginOut',

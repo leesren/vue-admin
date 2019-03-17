@@ -1,6 +1,6 @@
-import axios from 'axios';
-import { Message } from 'element-ui';
-import { getToken } from '@/utils/auth';
+import axios from "axios";
+import { Message } from "element-ui";
+import { getToken } from "@/utils/auth";
 
 // create an axios instance
 const service = axios.create({
@@ -15,7 +15,7 @@ service.interceptors.request.use(
     const token = getToken();
     if (token) {
       // 让每个请求携带token-- ['X-Token']为自定义key 请根据实际情况自行修改
-      config.headers['auth.token'] = getToken();
+      config.headers["auth.token"] = getToken();
     }
     console.log(config.url);
     return config;
@@ -37,10 +37,10 @@ service.interceptors.response.use(
    */
   response => {
     const res = response.data;
-    if (res.code !== '000000') {
+    if (res.code !== "000000") {
       Message({
         message: res.message,
-        type: 'error',
+        type: "error",
         duration: 5 * 1000
       });
       // // 50008:非法的token; 50012:其他客户端登录了;  50014:Token 过期了;
@@ -61,16 +61,16 @@ service.interceptors.response.use(
       //     });
       //   });
       // }
-      return Promise.reject('error');
+      return Promise.reject("error");
     } else {
       return response.data.data;
     }
   },
   error => {
-    console.log('err' + error); // for debug
+    console.log("err" + error); // for debug
     Message({
       message: error.message,
-      type: 'error',
+      type: "error",
       duration: 5 * 1000
     });
     return Promise.reject(error);
@@ -82,9 +82,17 @@ export const $http = {
   get: service.get,
   post: service.post
 };
-export const Http = {
-  install: function(Vue) {
-    Vue.prototype[$http] = $http;
-  }
-};
+
+export function httpPlugin(Vue) {
+  if (httpPlugin.installed) return;
+  httpPlugin.installed = true;
+  Object.defineProperty(Vue.prototype, "$http", {
+    get() {
+      return {
+        get: service.get,
+        post: service.post
+      };
+    }
+  });
+}
 export default service;

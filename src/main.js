@@ -1,7 +1,7 @@
 import Vue from 'vue';
 
 import Cookies from 'js-cookie';
-import { Http } from './utils/request';
+import { httpPlugin } from './utils/request';
 import 'normalize.css/normalize.css'; // A modern alternative to CSS resets
 
 import Element from 'element-ui';
@@ -26,7 +26,7 @@ Vue.use(Element, {
   i18n: (key, value) => i18n.t(key, value)
 });
 
-Vue.use(Http);
+Vue.use(httpPlugin);
 
 // register global utility filters.
 Object.keys(filters).forEach(key => {
