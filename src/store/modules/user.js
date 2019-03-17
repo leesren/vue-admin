@@ -1,7 +1,7 @@
-import { getUserInfo } from "@/api/login";
 import { getToken, setToken, removeToken } from "@/utils/auth";
 import { userApi } from "../../api";
 import { $http } from "../../utils/request";
+import { clearCache } from "../../utils/auth";
 const user = {
   state: {
     token: getToken(),
@@ -60,7 +60,7 @@ const user = {
           .get(userApi.loginOut)
           .then(() => {
             commit("SET_ROLES", []);
-            removeToken();
+            clearCache();
             resolve();
           })
           .catch(error => {
@@ -83,15 +83,15 @@ const user = {
       return new Promise(resolve => {
         commit("SET_TOKEN", role);
         setToken(role);
-        getUserInfo(role).then(response => {
-          const data = response.data;
-          commit("SET_ROLES", data.roles);
-          commit("SET_NAME", data.name);
-          commit("SET_AVATAR", data.avatar);
-          commit("SET_INTRODUCTION", data.introduction);
-          dispatch("GenerateRoutes", data); // 动态修改权限后 重绘侧边菜单
-          resolve();
-        });
+        // getUserInfo(role).then(response => {
+        //   const data = response.data;
+        //   commit("SET_ROLES", data.roles);
+        //   commit("SET_NAME", data.name);
+        //   commit("SET_AVATAR", data.avatar);
+        //   commit("SET_INTRODUCTION", data.introduction);
+        //   dispatch("GenerateRoutes", data); // 动态修改权限后 重绘侧边菜单
+        //   resolve();
+        // });
       });
     }
   }

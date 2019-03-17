@@ -26,7 +26,18 @@ function handleUserInfo2(to, from, next) {
   } else {
     // 没有动态改变权限的需求可直接next() 删除下方权限判断 ↓
     if (hasPermission(store.getters.roles, to.meta.roles)) {
-      next();
+      if (store.getters.permission_routers && store.getters.permission_routers.length === 0) {
+        // 刷新页面的情况
+        store.dispatch("roleInfo").then(roles => {
+          store.dispatch("generateRoutes", { roles }).then(accessRoutes => {
+            // 根据roles权限生成可访问的路由表
+            router.addRoutes(accessRoutes); // 动态添加可访问路由表
+            next(); // hack方法 确保addRoutes已完成 ,set the replace: true so the navigation will not leave a history record
+          });
+        });
+      } else {
+        next();
+      }
     } else {
       next({ path: "/401", replace: true, query: { noGoBack: true }});
     }

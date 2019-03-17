@@ -255,7 +255,7 @@ export const asyncRouterMap = [
     component: Layout,
     children: [
       {
-        path: 'https://github.com/PanJiaChen/vue-element-admin',
+        path: 'www.baidu.com',
         meta: { title: 'externalLink', icon: 'link' }
       }
     ]
