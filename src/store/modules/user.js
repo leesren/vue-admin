@@ -24,13 +24,17 @@ const user = {
 
   actions: {
     async login({ commit }, form) {
-      return this.dispatch("auth")
-        .then(res => {
-          setToken(res.accessToken);
-          return $http.post(`${userApi.login}`, {
-            name: form.username,
-            password: form.password
-          });
+      return this.dispatch("auth", { name: form.username })
+        .then(authRes => {
+          setToken(authRes.accessToken);
+          return $http
+            .post(`${userApi.login}`, {
+              name: form.username,
+              password: form.password
+            })
+            .then(res => {
+              return res;
+            });
         })
         .then(data => {
           commit("SET_USER_INFO", data);
@@ -41,8 +45,8 @@ const user = {
       commit("SET_USER_ROLES", data);
       return Promise.resolve(data);
     },
-    auth() {
-      return $http.get(userApi.auth);
+    auth(name) {
+      return $http.post(userApi.auth, { name });
     },
 
     // 第三方验证登录
